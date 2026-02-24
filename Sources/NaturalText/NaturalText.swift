@@ -17,10 +17,12 @@ public struct NaturalText: View {
 
     /// The content and behavior of this view.
     public var body: some View {
+        let isRTL = text.naturalLayoutDirection == .rightToLeft
         configure(Text(text))
+            .multilineTextAlignment(isRTL ? .trailing : .leading)
             .frame(
                 maxWidth: .infinity,
-                alignment: text.naturalLayoutDirection == .rightToLeft ? .trailing : .leading
+                alignment: isRTL ? .trailing : .leading
             )
     }
 }

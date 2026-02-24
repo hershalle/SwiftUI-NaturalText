@@ -12,11 +12,20 @@ struct ContentView: View {
         ("Emoji + Arabic", "🙂مرحبا"),
     ]
 
+    private let multilineSample = """
+        שלום עולם
+        Hello World
+        مرحبا بالعالم
+        """
+
+    private let longHebrewSample = "שלום עולם, זהו טקסט ארוך בעברית שאמור לגלוש לשורה הבאה כדי לבדוק את היישור של שורות מרובות"
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 header
                 sideBySide
+                multilineDemo
                 naturalList
             }
             .padding(20)
@@ -41,6 +50,73 @@ struct ContentView: View {
             HStack(alignment: .top, spacing: 16) {
                 demoColumn(title: "Text", usesNaturalText: false)
                 demoColumn(title: "NaturalText", usesNaturalText: true)
+            }
+        }
+    }
+
+    private var multilineDemo: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Multiline: Text vs NaturalText")
+                .font(.title2.bold())
+            Text("Each line has a different direction — does the alignment work per-line?")
+                .foregroundStyle(.secondary)
+
+            Text("Long wrapping Hebrew")
+                .font(.subheadline.bold())
+            HStack(alignment: .top, spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Text")
+                        .font(.headline)
+                    Text(longHebrewSample)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(uiColor: .secondarySystemBackground))
+                        )
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("NaturalText")
+                        .font(.headline)
+                    NaturalText(longHebrewSample)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(uiColor: .secondarySystemBackground))
+                        )
+                }
+                .frame(maxWidth: .infinity)
+            }
+
+            Text("Mixed direction lines")
+                .font(.subheadline.bold())
+            HStack(alignment: .top, spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Text")
+                        .font(.headline)
+                    Text(multilineSample)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(uiColor: .secondarySystemBackground))
+                        )
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("NaturalText")
+                        .font(.headline)
+                    NaturalText(multilineSample)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(uiColor: .secondarySystemBackground))
+                        )
+                }
+                .frame(maxWidth: .infinity)
             }
         }
     }
